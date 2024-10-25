@@ -8,10 +8,10 @@ services:
       - "3000:3000"
     volumes:
       - ./backend:/app/backend
-      - /app/backend/node_modules
+      - backend_node_modules:/app/backend/node_modules  # Named volume for node_modules
     environment:
       - USER_NAME=aurelius
-    command: pnpm start
+
   frontend:
     build:
       context: .
@@ -21,17 +21,20 @@ services:
       - "5173:5173"
     volumes:
       - ./frontend:/app/frontend
-      - //frontend/node_modules
+      - frontend_node_modules:/app/frontend/node_modules  # Named volume for node_modules
     environment:
       - USER_NAME=aurelius
-    command: pnpm run dev
 
   nginx:
     image: nginx:latest
     ports:
-      - "8888:80"  # Using port 8888 instead
+      - "8888:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - frontend
       - backend
+
+volumes:
+  backend_node_modules:
+  frontend_node_modules:
