@@ -10,7 +10,7 @@ services:
       - ./backend:/app/backend
       - /app/backend/node_modules
     environment:
-      - USER_NAME=${USER_NAME}
+      - USER_NAME=aurelius
     command: pnpm start
   frontend:
     build:
@@ -23,7 +23,7 @@ services:
       - ./frontend:/app/frontend
       - //frontend/node_modules
     environment:
-      - USER_NAME=${USER_NAME}
+      - USER_NAME=aurelius
     command: pnpm run dev
   nginx:
     image: nginx:latest
