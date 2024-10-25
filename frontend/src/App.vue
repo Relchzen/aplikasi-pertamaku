@@ -15,9 +15,9 @@ const changeEmail = async () => {
   await fetch('http://localhost:3000/api/change-email', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json' // Lebih baik menggunakan JSON
     },
-    body: `email=${newEmail.value}`,
+    body: JSON.stringify({ email: newEmail.value })
   });
 };
 </script>
