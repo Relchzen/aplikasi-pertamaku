@@ -1,18 +1,19 @@
-FROM node:20-alpine as builder
-WORKDIR /app
-COPY package*.json ./
-COPY pnpm-lock.yaml ./
+FROM node:18-alpine as base
 RUN npm install -g pnpm
-RUN pnpm install
-COPY . .
-RUN pnpm run build
+WORKDIR /app
 
-FROM node:20-alpine
-WORKDIR /app
-COPY package*.json ./
-COPY pnpm-lock.yaml ./
-RUN npm install -g pnpm
+FROM base as backend
+WORKDIR /app/backend
+COPY backend/package.json backend/pnpm-lock.yaml ./
 RUN pnpm install
-COPY . .
-EXPOSE 80
+COPY backend .
+EXPOSE 3000
 CMD ["pnpm", "start"]
+
+FROM base as frontend
+WORKDIR /app/frontend
+COPY frontend/package.json frontend/pnpm-lock.yaml ./
+RUN pnpm install
+COPY frontend .
+EXPOSE 5173
+CMD ["pnpm", "run", "dev"]
